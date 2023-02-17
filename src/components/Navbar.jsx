@@ -1,17 +1,32 @@
-//import { useState } from "react";
-import { Calendar, Point } from "../constants/assets";
-import { Logo } from "../constants/assets";
-import { Compare } from "../constants/assets";
-import { Heart } from "../constants/assets";
-import { Menu } from "../constants/assets";
-import { Notifications } from "../constants/assets";
-import { Phone } from "../constants/assets";
-import { User } from "../constants/assets";
-import { Vector } from "../constants/assets";
-import { World } from "../constants/assets";
-import { ChevronDownIcon } from "../constants/assets";
+import { useState, useContext } from "react";
+import {
+  Calendar,
+  Point,
+  Logo,
+  Compare,
+  Heart,
+  Notifications,
+  Menu,
+  Phone,
+  User,
+  Vector,
+  World,
+  ChevronDownIcon,
+} from "../constants/assets";
+import { Context } from "../context";
+
+import { city } from "../data";
 
 export default function Navbar() {
+  const [selectCity, setSelectCity] = useState(true);
+  const { valueCity, setValue } = useContext(Context);
+  const chageSelect = (event) => {
+    setValue(event.target.value);
+    if (valueCity) {
+      setSelectCity(true);
+    }
+  };
+
   return (
     <header className="md:mb-[60px] ">
       <nav className="border-b border-gray-200 border-opacity-25 py-2.5 md:px-12">
@@ -70,20 +85,46 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+
         <div className="flex gap-2 max-md:hidden">
-          <div className="flex items-center gap-2 w-[260px] h-[46px] p-3 text-base text-gray-900 rounded border border-[#81C341] ">
-            <Point />
-            Ростов-на-Дону
-            <p className="cursor-pointer">
+          <div className="flex justify-between items-center gap-2 w-[260px] h-[46px] p-3 text-base text-gray-900 rounded border border-[#81C341] ">
+            <div className="flex items-center">
+              <p className="mr-2">
+                <Point />
+              </p>
+              {valueCity}
+            </div>
+            <p
+              className="cursor-pointer"
+              onClick={() => setSelectCity((prev) => !prev)}
+            >
               <ChevronDownIcon />
             </p>
           </div>
+
           <input
             type="search"
-            className=" w-full h-[46px] p-3 focus:outline-none text-sm text-gray-900 rounded border border-[#81C341] focus:border-blue-500"
+            className=" w-full h-[46px] p-3 focus:outline-none text-[16px] text-gray-900 rounded border border-[#81C341] focus:border-blue-500"
             placeholder="Поищем чаечек"
           />
         </div>
+
+        {selectCity || (
+          <div
+            onClick={chageSelect}
+            value={valueCity}
+            className="flex flex-col w-[200px] mt-1 absolute z-40 bg-white  "
+          >
+            {city.map((item) => (
+              <option
+                key={item.id}
+                className="hover:bg-yellow-50 w-full py-3 px-9 "
+              >
+                {item}
+              </option>
+            ))}
+          </div>
+        )}
       </nav>
     </header>
   );

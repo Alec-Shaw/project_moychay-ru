@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  Geo,
-  Youtube,
-  HeartGray,
-  Eye,
-  Checkmark,
-  Edit,
-  News,
-} from "../constants/assets";
+import { Geo, Youtube, HeartGray, Eye, Edit } from "../constants/assets";
 import img from "../assets/tea.jpg";
+import RightMenu from "./RightMenu";
 
 export default function VideoContent() {
   return (
@@ -63,37 +56,7 @@ export default function VideoContent() {
             </div>
           </div>
         </div>
-        <div className="">
-          <div className="ml-12 flex flex-col gap-1 text-[#1D1D1D] text-[14px] w-64 max-md:hidden ">
-            <input
-              type="search"
-              className=" p-3 focus:outline-none text-sm bg-gray-50 rounded-lg border border-green-300 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Поиск по ленте"
-            />
-            <div className="flex justify-between px-2 py-3 hover:bg-yellow-50 rounded-md">
-              <div className="flex items-center">
-                <Checkmark />
-                <p className="pl-2">dddd</p>
-              </div>
-              <input className="left-0" type="checkbox" />
-            </div>
-            <div className="flex justify-between px-2 py-3 hover:bg-yellow-50 rounded-md">
-              <div className="flex items-center">
-                <News />
-                <p className="pl-2">dddd</p>
-              </div>
-              <input className="left-0" type="checkbox" />
-            </div>
-            <div className="flex justify-between px-2 py-3 hover:bg-yellow-50 rounded-md">
-              <p>dddd</p>
-              <input className="left-0" type="checkbox" />
-            </div>
-            <div className="flex justify-between px-2 py-3 hover:bg-yellow-50 rounded-md">
-              <p>dddd</p>
-              <input className="left-0" type="checkbox" />
-            </div>
-          </div>
-        </div>
+        <RightMenu />
       </div>
     </section>
   );

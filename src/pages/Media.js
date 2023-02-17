@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import img from "../../src/assets/tea.jpg";
 import { Pin } from "../constants/assets";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
