@@ -1,6 +1,6 @@
 import { useState } from "react";
 import img from "../../src/assets/tea.jpg";
-import { Pin } from "../constants/assets";
+import { ChatBubble, Pin } from "../constants/assets";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { puerh } from "../data";
 import VideoContent from "../components/VideoContent";
@@ -48,7 +48,7 @@ export default function Media() {
             Лента новостей и медиа
             <input
               type="search"
-              className="md:hidden w-full p-3 focus:outline-none text-sm text-gray-900 bg-gray-50 rounded-lg border border-green-300 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              className="md:hidden w-full p-3 focus:outline-none text-sm text-gray-900 bg-gray-50 rounded-lg border border-[#81C341] focus:border-blue-500 "
               placeholder="Поиск по ленте"
             />
           </div>
@@ -101,34 +101,71 @@ export default function Media() {
           )}
           <div className={pin || "md:ml-12"}>
             <VideoContent />
-
             <div className="text-center border bordder-gray mt-6 h-8 rounded-lg">
               Показать еще
             </div>
             <div className="flex justify-center items-center">
-              <div className=" justify-center text-center border border-green-500 rounded-sm w-[32px] h-[32px] m-2">
+              <div className="text-center border border-green-500 rounded-sm w-[32px] h-[32px] m-2 pt-1">
                 1
               </div>
-              <div className=" justify-center text-center rounded-sm w-[32px] h-[32px] m-2">
+              <div className="text-center rounded-sm w-[32px] h-[32px] m-2 pt-1">
                 2
               </div>
-              <div className=" justify-center text-center rounded-sm w-[32px] h-[32px] m-2">
+              <div className="text-center rounded-sm w-[32px] h-[32px] m-2 pt-1">
                 3
               </div>
-              <div className=" justify-center text-center rounded-sm w-[32px] h-[32px] m-2">
+              <div className="text-center rounded-sm w-[32px] h-[32px] m-2 pt-1">
                 4
               </div>
-              <div className=" justify-center text-center rounded-sm w-[32px] h-[32px] m-2">
+              <div className="text-center rounded-sm w-[32px] h-[32px] m-2 pt-1">
                 5
               </div>
             </div>
-            <p className=" text-5xl mb-8 mt-5">Рекомендуем попробовать</p>
+            <p className=" text-[28px] mb-8 mt-5">Рекомендуем попробовать</p>
             <div className="md:flex justify-between">
+              <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 ">
+                <img
+                  src={img}
+                  alt={"title"}
+                  className="h-auto  w-full object-cover "
+                />
+                <div className="p-5">
+                  <h5 className="mb-2 text-[14px] font-normal tracking-tight text-[#1d1d1d]">
+                    Чжэн Шань Сяо Чжун «511», («Лапсанг Сушонг»)
+                  </h5>
+                  <p className="mb-2 text-xs font-normal text-[#5E5E5E]">
+                    Литература
+                  </p>
+                  <p className="mb-3 text-xs font-normal text-[#ABABAB]">
+                    Красный чай, урожай 2021 года, 100 г. Один из старейших
+                    сортов красного чая
+                  </p>
+                  <div className="flex items-center gap-1 text-xs font-normal mb-3">
+                    <ChatBubble width="15px" height="15px" color="#81C341" />{" "}
+                    <p className="text-[#81C341] ml-1">150 оценок </p>
+                    <p className="text-[#ABABAB]">/ 79 отзывов</p>
+                  </div>
+                  <p className="text-xl font-medium text-[#1D1D1D] my-2">
+                    45 693 ₽
+                  </p>
+                  <div className="flex items-center  gap-1">
+                    <div>
+                      <button className="w-[108px] h-10  bg-[#81C341] rounded-[4px] text-[16px] text-white">
+                        В корзину
+                      </button>
+                    </div>
+
+                    <div className="h-10 w-full border rounded-[4px] border-[#81C341]">
+                      100 гр
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700  cursor-pointer">
                 <img
                   src={img}
                   alt={"title"}
-                  className="h-[248px] object-cover"
+                  className="h-auto w-full object-cover"
                 />
                 <div className="p-5">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -143,22 +180,7 @@ export default function Media() {
                 <img
                   src={img}
                   alt={"title"}
-                  className="h-[248px] w-full object-cover"
-                />
-                <div className="p-5">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    title
-                  </h5>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    dddd...
-                  </p>
-                </div>
-              </div>
-              <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700  cursor-pointer">
-                <img
-                  src={img}
-                  alt={"title"}
-                  className="h-[248px] w-full object-cover"
+                  className="h-auto w-full object-cover"
                 />
                 <div className="p-5">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

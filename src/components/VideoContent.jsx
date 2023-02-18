@@ -6,7 +6,7 @@ import RightMenu from "./RightMenu";
 export default function VideoContent() {
   return (
     <section id="video_content">
-      <div className="md:flex justify-between">
+      <div className="md:flex justify-between mb-5">
         <div
           key={"id"}
           className=" bg-white mx-auto rounded-lg border border-[#D6D6D6] cursor-pointer"
