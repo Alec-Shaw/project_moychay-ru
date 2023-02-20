@@ -1,38 +1,64 @@
-export const projects = [
+import tea from "./assets/tea.jpg";
+import tea1 from "./assets/tea1.jpg";
+import tea2 from "./assets/tea2.jpg";
+import tea3 from "./assets/tea3.jpg";
+import tea4 from "./assets/tea4.jpg";
+
+export const card = [
   {
-    title: "React Reserve",
-    subtitle: "MERN Stack",
+    id: 1,
+    title: "Чжэн Шань Сяо Чжун «511», («Лапсанг Сушонг»)",
+    subtitle: "Литература",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium dolore rerum laborum iure enim sint nemo omnis voluptate exercitationem eius?",
-    image: "./project-1.gif",
-    link: "https://reactbootcamp.com",
+      "Красный чай, урожай 2021 года, 100 г. Один из старейших сортов красного чая",
+    image: tea,
+    grade: "150 оценок",
+    rewiews: "79 отзывов",
+    price: "45 693",
   },
   {
-    title: "React Tracks",
-    subtitle: "React and Python",
+    id: 2,
+    title: "Чжэн Шань Сяо Чжун «511», («Лапсанг Сушонг»)",
+    subtitle: "Литература",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium dolore rerum laborum iure enim sint nemo omnis voluptate exercitationem eius?",
-    image: "./project-2.gif",
-    link: "https://reactbootcamp.com",
+      "Красный чай, урожай 2021 года, 100 г. Один из старейших сортов красного чая",
+    image: tea1,
+    grade: "150 оценок",
+    rewiews: "79 отзывов",
+    price: "45 693",
   },
   {
-    title: "DevChat",
-    subtitle: "React and Firebase",
+    id: 3,
+    title: "Чжэн Шань Сяо Чжун «511», («Лапсанг Сушонг»)",
+    subtitle: "Литература",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium dolore rerum laborum iure enim sint nemo omnis voluptate exercitationem eius?",
-    image: "./project-3.gif",
-    link: "https://reactbootcamp.com",
+      "Красный чай, урожай 2021 года, 100 г. Один из старейших сортов красного чая",
+    image: tea2,
+    grade: "150 оценок",
+    rewiews: "79 отзывов",
+    price: "45 693",
   },
   {
-    title: "Epic Todo App",
-    subtitle: "React Hooks",
+    id: 4,
+    title: "Чжэн Шань Сяо Чжун «511», («Лапсанг Сушонг»)",
+    subtitle: "Литература",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium dolore rerum laborum iure enim sint nemo omnis voluptate exercitationem eius?",
-    image: "./project-4.gif",
-    link: "https://reactbootcamp.com",
+      "Красный чай, урожай 2021 года, 100 г. Один из старейших сортов красного чая",
+    image: tea3,
+    grade: "150 оценок",
+    rewiews: "79 отзывов",
+    price: "45 693",
   },
   {
-    rt: {},
+    id: 5,
+    title: "Чжэн Шань Сяо Чжун «511», («Лапсанг Сушонг»)",
+    subtitle: "Литература",
+    description:
+      "Красный чай, урожай 2021 года, 100 г. Один из старейших сортов красного чая",
+    image: tea4,
+    grade: "150 оценок",
+    rewiews: "79 отзывов",
+    price: "45 693",
   },
 ];
 

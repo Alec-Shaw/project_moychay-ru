@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import {
   Calendar,
   Point,
@@ -12,8 +12,10 @@ import {
   Vector,
   World,
   ChevronDownIcon,
+  ChevronUpIcon,
 } from "../constants/assets";
 import { Context } from "../context";
+import { useOutsideClick } from "../hooks/Outsideclick";
 
 import { city } from "../data";
 
@@ -26,7 +28,16 @@ export default function Navbar() {
       setSelectCity(true);
     }
   };
+  const rootEl = useRef(null);
 
+  const closeMenu = () => {
+    setSelectCity(true);
+  };
+  const openMenu = () => {
+    setSelectCity(false);
+  };
+
+  useOutsideClick(rootEl, closeMenu, !selectCity);
   return (
     <header className="md:mb-[60px] ">
       <nav className="border-b border-gray-200 border-opacity-25 py-2.5 md:px-12">
@@ -94,11 +105,16 @@ export default function Navbar() {
               </p>
               {valueCity}
             </div>
-            <p
-              className="cursor-pointer"
-              onClick={() => setSelectCity((prev) => !prev)}
-            >
-              <ChevronDownIcon />
+            <p className="cursor-pointer">
+              {selectCity ? (
+                <p onClick={openMenu}>
+                  <ChevronDownIcon />
+                </p>
+              ) : (
+                <p onClick={closeMenu}>
+                  <ChevronUpIcon />
+                </p>
+              )}
             </p>
           </div>
 
@@ -111,13 +127,14 @@ export default function Navbar() {
 
         {selectCity || (
           <div
+            ref={rootEl}
             onClick={chageSelect}
             value={valueCity}
             className="flex flex-col w-[200px] mt-1 absolute z-40 bg-white  "
           >
-            {city.map((item) => (
+            {city.map((item, index) => (
               <option
-                key={item.id}
+                key={index}
                 className="hover:bg-yellow-50 w-full py-3 px-9 "
               >
                 {item}

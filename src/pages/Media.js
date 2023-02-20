@@ -1,13 +1,31 @@
-import { useState } from "react";
-import img from "../../src/assets/tea.jpg";
-import { ChatBubble, Pin } from "../constants/assets";
+import { useState, useContext, useRef } from "react";
+import { Context } from "../context";
+import { Pin } from "../constants/assets";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { puerh } from "../data";
 import VideoContent from "../components/VideoContent";
+import Card from "../components/Card";
+import { card } from "../data";
+import { useOutsideClick } from "../hooks/Outsideclick";
 
 export default function Media() {
-  const [pin, setPin] = useState(true);
+  const { pin, setPin } = useContext(Context);
+  let rootEl = useRef(null);
   const [leftToggle, setLeftToggle] = useState(false);
+
+  const leftMenuOpen = () => {
+    setLeftToggle(true);
+  };
+
+  const leftMenuClose = () => {
+    setLeftToggle(false);
+  };
+
+  if (!pin) {
+    rootEl = null;
+  }
+  useOutsideClick(rootEl, leftMenuClose, leftToggle);
+
   const bot = pin
     ? "absolute z-40 h-{100%} bg-white w-72 "
     : "basis-1/3 bg-white h-full w-72 ";
@@ -24,13 +42,13 @@ export default function Media() {
               {leftToggle ? (
                 pin && (
                   <ChevronUpIcon
-                    onClick={() => setLeftToggle(false)}
+                    onClick={leftMenuClose}
                     className="w-6 absolute bottom-3 right-3 cursor-pointer text-white"
                   />
                 )
               ) : (
                 <ChevronDownIcon
-                  onClick={() => setLeftToggle(true)}
+                  onClick={leftMenuOpen}
                   className="w-6 absolute bottom-3 right-3 cursor-pointer text-white"
                 />
               )}
@@ -54,7 +72,7 @@ export default function Media() {
           </div>
         </div>
 
-        <div className="flex items-start ">
+        <div ref={rootEl} className="flex items-start ">
           {leftToggle && (
             <div className="max-md:hidden ">
               <div className={`${bot}, text-[#1D1D1D]  text-[14px]`}>
@@ -123,74 +141,14 @@ export default function Media() {
             </div>
             <p className=" text-[28px] mb-8 mt-5">Рекомендуем попробовать</p>
             <div className="md:flex justify-between">
-              <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 ">
-                <img
-                  src={img}
-                  alt={"title"}
-                  className="h-auto  w-full object-cover "
-                />
-                <div className="p-5">
-                  <h5 className="mb-2 text-[14px] font-normal tracking-tight text-[#1d1d1d]">
-                    Чжэн Шань Сяо Чжун «511», («Лапсанг Сушонг»)
-                  </h5>
-                  <p className="mb-2 text-xs font-normal text-[#5E5E5E]">
-                    Литература
-                  </p>
-                  <p className="mb-3 text-xs font-normal text-[#ABABAB]">
-                    Красный чай, урожай 2021 года, 100 г. Один из старейших
-                    сортов красного чая
-                  </p>
-                  <div className="flex items-center gap-1 text-xs font-normal mb-3">
-                    <ChatBubble width="15px" height="15px" color="#81C341" />{" "}
-                    <p className="text-[#81C341] ml-1">150 оценок </p>
-                    <p className="text-[#ABABAB]">/ 79 отзывов</p>
-                  </div>
-                  <p className="text-xl font-medium text-[#1D1D1D] my-2">
-                    45 693 ₽
-                  </p>
-                  <div className="flex items-center  gap-1">
-                    <div>
-                      <button className="w-[108px] h-10  bg-[#81C341] rounded-[4px] text-[16px] text-white">
-                        В корзину
-                      </button>
-                    </div>
-
-                    <div className="h-10 w-full border rounded-[4px] border-[#81C341]">
-                      100 гр
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700  cursor-pointer">
-                <img
-                  src={img}
-                  alt={"title"}
-                  className="h-auto w-full object-cover"
-                />
-                <div className="p-5">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    title
-                  </h5>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    dddd...
-                  </p>
-                </div>
-              </div>
-              <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700  cursor-pointer">
-                <img
-                  src={img}
-                  alt={"title"}
-                  className="h-auto w-full object-cover"
-                />
-                <div className="p-5">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    title
-                  </h5>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    dddd...
-                  </p>
-                </div>
-              </div>
+              {" "}
+              {pin
+                ? card
+                    .slice(0, 4)
+                    .map((item) => <Card key={item.id} item={item} />)
+                : card
+                    .slice(0, 3)
+                    .map((item) => <Card key={item.id} item={item} />)}
             </div>
           </div>
         </div>

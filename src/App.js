@@ -6,12 +6,15 @@ import { Context } from "./context";
 
 export default function App() {
   const [valueCity, setValue] = useState("Москва");
+  const [pin, setPin] = useState(true);
 
   return (
     <Context.Provider
       value={{
         setValue,
         valueCity,
+        pin,
+        setPin,
       }}
     >
       <Hat />
