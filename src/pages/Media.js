@@ -5,14 +5,34 @@ import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { puerh } from "../data";
 import VideoContent from "../components/VideoContent";
 import Card from "../components/Card";
-import { card } from "../data";
+import { card, videos } from "../data";
 import { useOutsideClick } from "../hooks/Outsideclick";
+import RightMenu from "../components/RightMenu";
+import Pagination from "../components/Pagination";
 
 export default function Media() {
   const { pin, setPin } = useContext(Context);
   let rootEl = useRef(null);
   const [leftToggle, setLeftToggle] = useState(false);
 
+  //Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [videosPerPage, setVideosPerPage] = useState(2);
+  const lastVideosIndex = currentPage * videosPerPage;
+  const firstVideosIndex = lastVideosIndex - videosPerPage;
+  const currentVideo = videos.slice(firstVideosIndex, lastVideosIndex);
+
+  const pagiante = (pagenumber) => setCurrentPage(pagenumber);
+
+  const moreClick = () => {
+    if (currentVideo.length >= 2) {
+      setVideosPerPage((prev) => prev + 1);
+      console.log(currentVideo.length);
+    }
+    if (!currentVideo.length) setVideosPerPage(2);
+  };
+
+  //Open/close/pin left menu
   const leftMenuOpen = () => {
     setLeftToggle(true);
   };
@@ -24,6 +44,7 @@ export default function Media() {
   if (!pin) {
     rootEl = null;
   }
+  //
   useOutsideClick(rootEl, leftMenuClose, leftToggle);
 
   const bot = pin
@@ -38,7 +59,8 @@ export default function Media() {
             <div className="bg-[#81C341] md:w-72 h-12 rounded-sm relative max-md:hidden">
               <p className="absolute left-3 bottom-3 text-white font-medium ">
                 Каталог
-              </p>{" "}
+              </p>
+              {/* Left menu buttton */}
               {leftToggle ? (
                 pin && (
                   <ChevronUpIcon
@@ -62,6 +84,7 @@ export default function Media() {
               )}
             </div>
           </div>
+          {/* topic */}
           <div className=" basis-1/2 md:ml-7 text-3xl text-gray-900 font-medium max-md:text-[27px] ">
             Лента новостей и медиа
             <input
@@ -71,7 +94,7 @@ export default function Media() {
             />
           </div>
         </div>
-
+        {/* Left menu  */}
         <div ref={rootEl} className="flex items-start ">
           {leftToggle && (
             <div className="max-md:hidden ">
@@ -117,28 +140,33 @@ export default function Media() {
               </div>
             </div>
           )}
+          {/* Center part video content */}
           <div className={pin || "md:ml-12"}>
-            <VideoContent />
-            <div className="text-center border bordder-gray mt-6 h-8 rounded-lg">
+            <div className="md:flex justify-between mb-5">
+              <div className="md:flex flex-col mb-5">
+                {currentVideo.map((video) => (
+                  <VideoContent key={video.id} video={video} />
+                ))}
+              </div>
+              {/*RightMenu  */}
+              <RightMenu />
+            </div>
+            {/* Pagination */}
+            <div
+              onClick={moreClick}
+              className="text-center border bordder-gray mt-6 h-8 rounded-lg cursor-pointer"
+            >
               Показать еще
             </div>
             <div className="flex justify-center items-center">
-              <div className="text-center border border-green-500 rounded-sm w-[32px] h-[32px] m-2 pt-1">
-                1
-              </div>
-              <div className="text-center rounded-sm w-[32px] h-[32px] m-2 pt-1">
-                2
-              </div>
-              <div className="text-center rounded-sm w-[32px] h-[32px] m-2 pt-1">
-                3
-              </div>
-              <div className="text-center rounded-sm w-[32px] h-[32px] m-2 pt-1">
-                4
-              </div>
-              <div className="text-center rounded-sm w-[32px] h-[32px] m-2 pt-1">
-                5
-              </div>
+              <Pagination
+                pagiante={pagiante}
+                videosPerPage={videosPerPage}
+                totalVideos={videos.length}
+                currentPage={currentPage}
+              />
             </div>
+            {/* Down block, Products cards */}
             <p className=" text-[28px] mb-8 mt-5">Рекомендуем попробовать</p>
             <div className="md:flex justify-between">
               {" "}
