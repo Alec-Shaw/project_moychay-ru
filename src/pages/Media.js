@@ -1,14 +1,16 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useMemo } from "react";
 import { Context } from "../context";
 import { Pin } from "../constants/assets";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { puerh } from "../data";
-import VideoContent from "../components/VideoContent";
-import Card from "../components/Card";
+import VideoContent from "../scene/VideoContent";
+import Card from "../scene/Card";
 import { card, videos } from "../data";
 import { useOutsideClick } from "../hooks/Outsideclick";
-import RightMenu from "../components/RightMenu";
+import RightMenu from "../scene/RightMenu";
 import Pagination from "../components/Pagination";
+
+let PageSize = 1;
 
 export default function Media() {
   const { pin, setPin } = useContext(Context);
@@ -17,20 +19,12 @@ export default function Media() {
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [videosPerPage, setVideosPerPage] = useState(2);
-  const lastVideosIndex = currentPage * videosPerPage;
-  const firstVideosIndex = lastVideosIndex - videosPerPage;
-  const currentVideo = videos.slice(firstVideosIndex, lastVideosIndex);
 
-  const pagiante = (pagenumber) => setCurrentPage(pagenumber);
-
-  const moreClick = () => {
-    if (currentVideo.length >= 2) {
-      setVideosPerPage((prev) => prev + 1);
-      console.log(currentVideo.length);
-    }
-    if (!currentVideo.length) setVideosPerPage(2);
-  };
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return videos.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage]);
 
   //Open/close/pin left menu
   const leftMenuOpen = () => {
@@ -143,8 +137,8 @@ export default function Media() {
           {/* Center part video content */}
           <div className={pin || "md:ml-12"}>
             <div className="md:flex justify-between mb-5">
-              <div className="md:flex flex-col mb-5">
-                {currentVideo.map((video) => (
+              <div className="md:flex flex-col w-full mb-5">
+                {currentTableData.map((video) => (
                   <VideoContent key={video.id} video={video} />
                 ))}
               </div>
@@ -153,17 +147,18 @@ export default function Media() {
             </div>
             {/* Pagination */}
             <div
-              onClick={moreClick}
+              // onClick={moreClick}
               className="text-center border bordder-gray mt-6 h-8 rounded-lg cursor-pointer"
             >
               Показать еще
             </div>
             <div className="flex justify-center items-center">
               <Pagination
-                pagiante={pagiante}
-                videosPerPage={videosPerPage}
-                totalVideos={videos.length}
+                className="pagination-bar"
                 currentPage={currentPage}
+                totalCount={videos.length}
+                pageSize={PageSize}
+                onPageChange={(page) => setCurrentPage(page)}
               />
             </div>
             {/* Down block, Products cards */}
@@ -180,159 +175,6 @@ export default function Media() {
             </div>
           </div>
         </div>
-
-        <div className="flex justify-between  mt-6 ">
-          {/* <div className={bot}>
-          <p>Новинки</p>
-          <p className="mt-6 hover:bg-slate-500 p-2 w-72">
-            Чай производства Мойчай.ру
-          </p>
-          <p className="mt-6">Чай производства Мойчай.ру</p>
-          <p className="mt-6">Чай производства Мойчай.ру</p>
-          <p className="mt-6">Чай производства Мойчай.ру</p>
-        </div> */}
-
-          <div className="md:max-w-7xl mr-5 ml-5">
-            {/* <div
-            key={"id"}
-            className=" bg-white mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700  cursor-pointer"
-          >
-            <div className="md:flex justify-between items-center m-3">
-              <p className=" flex items-center md:ml-5">
-                <svg className=" w-7 mr-3 ml-4" viewBox="0 0 20 20">
-                  <path d="M10,6.978c-1.666,0-3.022,1.356-3.022,3.022S8.334,13.022,10,13.022s3.022-1.356,3.022-3.022S11.666,6.978,10,6.978M10,12.267c-1.25,0-2.267-1.017-2.267-2.267c0-1.25,1.016-2.267,2.267-2.267c1.251,0,2.267,1.016,2.267,2.267C12.267,11.25,11.251,12.267,10,12.267 M18.391,9.733l-1.624-1.639C14.966,6.279,12.563,5.278,10,5.278S5.034,6.279,3.234,8.094L1.609,9.733c-0.146,0.147-0.146,0.386,0,0.533l1.625,1.639c1.8,1.815,4.203,2.816,6.766,2.816s4.966-1.001,6.767-2.816l1.624-1.639C18.536,10.119,18.536,9.881,18.391,9.733 M16.229,11.373c-1.656,1.672-3.868,2.594-6.229,2.594s-4.573-0.922-6.23-2.594L2.41,10l1.36-1.374C5.427,6.955,7.639,6.033,10,6.033s4.573,0.922,6.229,2.593L17.59,10L16.229,11.373z"></path>
-                </svg>
-                Видео • 13 августа 2021{" "}
-              </p>
-              <p className="flex items-center md:mr-8  ">
-                <svg className=" w-7 mr-3 ml-4" viewBox="0 0 20 20">
-                  <path d="M10,6.978c-1.666,0-3.022,1.356-3.022,3.022S8.334,13.022,10,13.022s3.022-1.356,3.022-3.022S11.666,6.978,10,6.978M10,12.267c-1.25,0-2.267-1.017-2.267-2.267c0-1.25,1.016-2.267,2.267-2.267c1.251,0,2.267,1.016,2.267,2.267C12.267,11.25,11.251,12.267,10,12.267 M18.391,9.733l-1.624-1.639C14.966,6.279,12.563,5.278,10,5.278S5.034,6.279,3.234,8.094L1.609,9.733c-0.146,0.147-0.146,0.386,0,0.533l1.625,1.639c1.8,1.815,4.203,2.816,6.766,2.816s4.966-1.001,6.767-2.816l1.624-1.639C18.536,10.119,18.536,9.881,18.391,9.733 M16.229,11.373c-1.656,1.672-3.868,2.594-6.229,2.594s-4.573-0.922-6.23-2.594L2.41,10l1.36-1.374C5.427,6.955,7.639,6.033,10,6.033s4.573,0.922,6.229,2.593L17.59,10L16.229,11.373z"></path>
-                </svg>
-                Санкт-Петербург
-              </p>
-            </div>
-
-            <div className="flex justify-center">
-              {" "}
-              <img src={img} alt={"title"} className="w-11/12 object-cover" />
-            </div>
-            <div className="p-5">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                dfdf
-              </h5>
-              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                fdfd...
-              </p>
-              <div className="flex justify-start">
-                <p className=" bg-lime-300 rounded-lg p-1 text-gray-700 ml-3">
-                  dddd
-                </p>
-                <p className=" bg-lime-300 rounded-lg p-1 text-gray-700 ml-3">
-                  dddd
-                </p>
-                <p className=" bg-lime-300 rounded-lg p-1 text-gray-700 ml-3">
-                  dddd
-                </p>
-              </div>
-            </div>
-          </div> */}
-            {/* <div className='flex justify-center border bordder-gray mt-6 h-8 rounded-lg'>Показать еще</div> */}
-          </div>
-
-          <div className="basis-1/3">
-            {/* <div className="ml-8 flex flex-col gap-4 text-black w-64">
-            <input
-              type="search"
-              className=" p-4 focus:outline-none text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Search..."
-            />
-            <div className="flex justify-between pr-2 pl-2">
-              <p>dddd</p>
-              <input className="left-0" type="checkbox" />
-            </div>
-            <div className="flex justify-between pr-2 pl-2">
-              <p>dddd</p>
-              <input className="left-0" type="checkbox" />
-            </div>
-            <div className="flex justify-between pr-2 pl-2">
-              <p>dddd</p>
-              <input className="left-0" type="checkbox" />
-            </div>
-            <div className="flex justify-between pr-2 pl-2">
-              <p>dddd</p>
-              <input className="left-0" type="checkbox" />
-            </div>
-          </div> */}
-
-            {/* MOBILE MENU MODAL */}
-            {/* <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-slate-50 drop-shadow-xl"> */}
-            {/* CLOSE ICON */}
-            {/* <div className="flex justify-end p-12">
-                            <button >
-                                ddd
-                            </button>
-                        </div> */}
-
-            {/* MENU ITEMS */}
-            {/* <div className="ml-8 flex flex-col gap-4 text-black w-64">
-                            <input
-                                type="search"
-                                className="mt-5 p-4 focus:outline-none text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                                placeholder="Search..." />
-                            <div className='flex justify-between pr-2 pl-2'><p>dddd</p><input className='left-0' type="checkbox" /></div>
-                            <div className='flex justify-between pr-2 pl-2'><p>dddd</p><input className='left-0' type="checkbox" /></div>
-                            <div className='flex justify-between pr-2 pl-2'><p>dddd</p><input className='left-0' type="checkbox" /></div>
-                            <div className='flex justify-between pr-2 pl-2'><p>dddd</p><input className='left-0' type="checkbox" /></div>
-
-                        </div>
-                    </div> */}
-          </div>
-        </div>
-
-        {/* <p className=" text-5xl">Рекомендуем попробовать</p>
-      <div className="md:flex justify-between">
-        <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700  cursor-pointer">
-          <img src={img} alt={"title"} className="h-[248px] object-cover" />
-          <div className="p-5">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              title
-            </h5>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              dddd...
-            </p>
-          </div>
-        </div>
-        <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700  cursor-pointer">
-          <img
-            src={img}
-            alt={"title"}
-            className="h-[248px] w-full object-cover"
-          />
-          <div className="p-5">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              title
-            </h5>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              dddd...
-            </p>
-          </div>
-        </div>
-        <div className="mr-5 bg-white mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700  cursor-pointer">
-          <img
-            src={img}
-            alt={"title"}
-            className="h-[248px] w-full object-cover"
-          />
-          <div className="p-5">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              title
-            </h5>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              dddd...
-            </p>
-          </div>
-        </div>
-      </div> */}
       </section>
     </>
   );
