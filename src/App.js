@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Media from "../src/pages/Media";
-import Navbar from "./components/Navbar";
-import Hat from "./components/Hat";
+import Navbar from "./scene/Navbar";
+import Hat from "./scene/Hat";
 import { Context } from "./context";
 
 export default function App() {
