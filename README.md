@@ -1,3 +1,7 @@
+Одна из страниц сайта(проект ещё в разработке). Адаптивная верстка. Реализовал некоторый функционал. 
+https://project-mytea.netlify.app/
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
