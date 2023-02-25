@@ -89,7 +89,7 @@ export default function Media() {
           </div>
         </div>
         {/* Left menu  */}
-        <div ref={rootEl} className="flex items-start ">
+        <div ref={rootEl} className="md:flex items-start ">
           {leftToggle && (
             <div className="max-md:hidden ">
               <div className={`${bot}, text-[#1D1D1D]  text-[14px]`}>
